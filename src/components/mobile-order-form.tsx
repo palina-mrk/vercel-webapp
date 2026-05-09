@@ -56,6 +56,16 @@ function orgLabel(o: Organization) {
   );
 }
 
+function currencyUnitFromPriceTypeName(name?: string | null) {
+  const n = (name || "").toLowerCase();
+  if (n.includes("usd") || n.includes("дол")) return "$";
+  if (n.includes("eur") || n.includes("евро")) return "€";
+  if (n.includes("kzt") || n.includes("тенге")) return "₸";
+  if (n.includes("byn") || n.includes("бел")) return "Br";
+  if (n.includes("uah") || n.includes("грив")) return "₴";
+  return "руб.";
+}
+
 let lineId = 0;
 function nextLineKey() {
   lineId += 1;
@@ -293,6 +303,7 @@ export function MobileOrderForm() {
   const selectedPriceType = priceTypes.find(
     (pt) => String(pt.id) === priceTypeId,
   );
+  const totalCurrencyUnit = currencyUnitFromPriceTypeName(selectedPriceType?.name);
 
   const buildSale = (conduct: boolean): SaleCreate => {
     const oid = Number(orgId);
@@ -855,7 +866,7 @@ export function MobileOrderForm() {
           <div className="text-muted-foreground border-border bg-card/50 flex items-center justify-between rounded-md border px-3 py-2 text-base">
             <span className="select-none">Итого:</span>
             <span className="text-foreground select-none text-lg font-semibold">
-              {totalSum.toFixed(2)} ₽
+              {totalSum.toFixed(2)} {totalCurrencyUnit}
             </span>
           </div>
           <Button

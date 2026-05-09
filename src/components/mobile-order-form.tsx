@@ -837,7 +837,7 @@ export function MobileOrderForm() {
                       Сумма:{" "}
                       <span className="text-foreground select-none font-medium">
                         {(line.quantity * (Number(line.price) || 0)).toFixed(2)}{" "}
-                        ₽
+                        {totalCurrencyUnit}
                       </span>
                     </p>
                   </li>
